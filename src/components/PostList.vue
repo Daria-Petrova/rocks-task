@@ -1,90 +1,54 @@
 <template>
-  <div>Выбрано: {{ filter }}</div>
-  <p>Фильтр: <input v-model="filter"/></p>
-  <ul v-for="post in filteredPosts()" :key="post.id">
-    <li v-if="post">
-      <p>Name: {{resultName(post.userId)}} </p>
-      <p>Title : {{post.title}}</p>
-    </li>
-    <li v-else>No data</li>
-  </ul>
-
+  <div class="container post-list">
+      <ul class="row p-0 post-list__wrapper">
+        <li class="col-md-5 list-unstyled post-list__item"  v-for="post in postList" :key="post.id" >
+          <div v-if="post" class="post-list__item-wrapper text-white">
+            <p class="px-2 post-list__item-name">Name: {{resultName(post.userId)}}</p>
+            <p class="px-2 post-list__item-title">Title : {{post.title}}</p>
+            <p class="px-2 post-list__item-body">Body: {{post.body}}</p>
+          </div>
+        </li>
+      </ul>
+  </div>
 </template>
 
 <script>
 export default {
-  data(){
-    return{
-      filter: '',
-      selected: '',
-      postList: [],
-      userList: [],
-      filteredPostList: []
-    }
-  },
-  created() {
-    const users = localStorage.getItem('users');
-    if (users) {
-      this.userList = JSON.parse(users);
-    } else {
-      this.userList = this.getUsers();
-    }
-    const posts = localStorage.getItem('posts');
-    if (posts) {
-      this.postList = JSON.parse(posts);
-    } else {
-      this.postList = this.getPosts();
-    }
-    const windowData = Object.fromEntries(new URL(window.location).searchParams.entries());
-    if (windowData.filter) {
-      this.filter = windowData.filter;
-    }
-
-
-  },
-  watch:{
-    filter() {
-      this.filteredUsers();
-      window.history.pushState(null, document.title, `${window.location.pathname}?filter=${this.filter}`)
-      if (this.filter.length < 1) {
-        window.history.pushState(null, document.title, `${window.location.pathname}`)
-      }
-    }
+  props: {
+    postList: Array,
+    userList: Array
   },
   methods:{
     resultName(id){
-      return this.userList.filter(i => i.id === id).map(i => i.name);
+      return this.userList.filter(i => i.id === id).map(i => i.name)[0];
     },
-    filteredUsers() {
-      if (this.filter) {
-        return this.userList.filter(user => user.name.toLowerCase().includes(this.filter.toLowerCase())).map(i => i.id);
-      } else {
-        return [];
-      }
-    },
-    filteredPosts() {
-      const idList = this.filteredUsers();
-      const postList = [...this.postList];
-      let res = [];
-      if (idList) {
-        idList.forEach(function(el){
-          res.push(postList.filter(post => post.userId === el));
-        })
-        if (res.length > 0 ) return res.reduce((a,b) => a.concat(b));
-      }
-    },
-    async getPosts() {
-      const result = await fetch('https://jsonplaceholder.typicode.com/posts')
-        .then(response => response.json());
-      this.postList = result;
-      localStorage.setItem('posts', JSON.stringify(result));
-    },
-    async getUsers(){
-      const result = await fetch('https://jsonplaceholder.typicode.com/users')
-        .then(response => response.json());
-      this.userList = result;
-      localStorage.setItem('users', JSON.stringify(result));
-    }
   }
 }
 </script>
+
+<style>
+  .post-list__item {
+    border-radius: 25px;
+    background-color: #700303;
+    flex:0 0 auto;
+    width: 32%;
+    margin: 5px;
+    @media screen and (max-width: 992px) {
+      width: 48%;
+    }
+    @media screen and (max-width: 600px) {
+      width: 98%;
+    }
+  }
+  .post-list__wrapper{
+    justify-content: space-between;
+  }
+  .post-list__item-name {
+    background-color: #FFFFFF;
+    color: #700303;
+    font-weight: 700;
+  }
+  .post-list__item-title{
+    font-weight: 700;
+  }
+</style>

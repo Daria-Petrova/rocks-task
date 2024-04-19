@@ -1,12 +1,15 @@
 <script setup>
-import PostList from './components/PostList.vue';
+import HeaderComponent from "@/components/HeaderComponent.vue";
+import FilterComponent from "@/components/FilterComponent.vue";
 </script>
 
 <template>
   <header>
+    <HeaderComponent/>
   </header>
   <main>
-    <PostList/>
+    <h1 class="visually-hidden">Test task for developer</h1>
+    <FilterComponent/>
   </main>
 </template>
 
