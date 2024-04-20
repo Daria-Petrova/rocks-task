@@ -1,11 +1,13 @@
 <template>
   <div class="container post-list">
-      <ul class="row p-0 post-list__wrapper">
-        <li class="col-md-5 list-unstyled post-list__item"  v-for="post in postList" :key="post.id" >
-          <div v-if="post" class="post-list__item-wrapper text-white">
-            <p class="px-2 post-list__item-name">Name: {{resultName(post.userId)}}</p>
-            <p class="px-2 post-list__item-title">Title : {{post.title}}</p>
-            <p class="px-2 post-list__item-body">Body: {{post.body}}</p>
+      <ul class="row row-cols-md-3 row-cols-sm-2 row-cols-lg-3 row-cols-1 p-0 post-list__wrapper">
+        <li class="col list-unstyled p-2" v-for="post in postList" :key="post.id" >
+          <div v-if="post" class="card">
+            <div class="card-body">
+              <h5 class="card-title text-primary first-letter">{{post.title}}</h5>
+              <p class="card-text first-letter">{{post.body}}</p>
+              <p class="card-text text-muted">{{resultName(post.userId)}}</p>
+            </div>
           </div>
         </li>
       </ul>
@@ -27,28 +29,9 @@ export default {
 </script>
 
 <style>
-  .post-list__item {
-    border-radius: 25px;
-    background-color: #700303;
-    flex:0 0 auto;
-    width: 32%;
-    margin: 5px;
-    @media screen and (max-width: 992px) {
-      width: 48%;
-    }
-    @media screen and (max-width: 600px) {
-      width: 98%;
-    }
+.first-letter {
+  &:first-letter {
+    text-transform: uppercase;
   }
-  .post-list__wrapper{
-    justify-content: space-between;
-  }
-  .post-list__item-name {
-    background-color: #FFFFFF;
-    color: #700303;
-    font-weight: 700;
-  }
-  .post-list__item-title{
-    font-weight: 700;
-  }
+}
 </style>

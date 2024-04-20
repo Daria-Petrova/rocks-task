@@ -13,5 +13,8 @@ import FilterComponent from "@/components/FilterComponent.vue";
   </main>
 </template>
 
-<style scoped>
+<style>
+body {
+  background-color: #ecf1f6;
+}
 </style>
