@@ -11,10 +11,8 @@ export default {
   data(){
     return{
       filter: '',
-      selected: '',
       postList: [],
       userList: [],
-      filteredPostList: []
     }
   },
   created() {

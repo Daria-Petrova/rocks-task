@@ -22,7 +22,9 @@ export default {
   },
   methods:{
     resultName(id){
-      return this.userList.filter(i => i.id === id).map(i => i.name)[0];
+      if (id) {
+        return this.userList.filter(i => i.id === id).map(i => i.name)[0];
+      }
     },
   }
 }
