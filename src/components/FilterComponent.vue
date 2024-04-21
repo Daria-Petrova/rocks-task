@@ -21,14 +21,10 @@ export default {
     const users = localStorage.getItem('users');
     if (users) {
       this.userList = JSON.parse(users);
-    } else {
-      this.userList = this.getUsers();
     }
     const posts = localStorage.getItem('posts');
     if (posts) {
       this.postList = JSON.parse(posts);
-    } else {
-      this.postList = this.getPosts();
     }
   },
   watch:{
@@ -80,6 +76,10 @@ export default {
       this.userList = result;
       localStorage.setItem('users', JSON.stringify(result));
     }
+  },
+  mounted() {
+    this.getPosts();
+    this.getUsers();
   }
 }
 </script>
